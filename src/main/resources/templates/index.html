@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Документы</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Подключение Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-size: cover;
+            background-position: center;
+        }
+        .container-fluid {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        .table {
+            width: 100%;
+            table-layout: fixed;
+        }
+        .table td, .table th {
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        .btn-primary {
+            background-color: #007bff;
+        }
+        .btn-success {
+            background-color: #28a745;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <h2>Загрузка файла</h2>
+    <form method="POST" action="/v1/upload" enctype="multipart/form-data" accept-charset="UTF-8" class="mb-3">
+        <div class="form-group">
+            <label for="file">File to upload:</label>
+            <input type="file" class="form-control-file" id="file" name="file" required>
+        </div>
+        <div class="form-group">
+            <label for="fileName">File name:</label>
+            <input type="text" class="form-control" id="fileName" name="fileName" required>
+        </div>
+        <div class="form-group">
+            <label for="author">Author:</label>
+            <input type="text" class="form-control" id="author" name="author" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+
+    </form>
+    <h2>Список документов</h2>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Название</th>
+            <th scope="col">Дата</th>
+            <th scope="col">Автор</th>
+            <th scope="col">Дата обновления</th>
+            <th scope="col">Расширение</th>
+            <th scope="col">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="document : ${documents}">
+            <td th:text="${document.documentId}"></td>
+            <td th:text="${document.documentName}"></td>
+            <td th:text="${document.creationDate}"></td>
+            <td th:text="${document.author}"></td>
+            <td th:text="${document.updDate}"></td>
+            <td th:text="${document.fileExtension}"></td>
+            <td>
+                <a th:href="@{/v1/download(id=${document.documentId})}" class="btn btn-success btn-sm">Download</a>
+                <a th:href="@{/v1/delete(id=${document.documentId})}" class="btn btn-danger btn-sm">Delete</a>
+                <a th:href="@{/v1/edit(id=${document.documentId})}" class="btn btn-success btn-sm">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
