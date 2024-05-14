@@ -31,7 +31,7 @@ public class DocumentController {
     DocumentService documentService;
 
     @GetMapping("/homePage")
-    public ModelAndView homePage(Model model) {
+    public ModelAndView homePage(HttpServletRequest request) {
         Iterable<Document> documents = documentRepository.findAll();
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("documents", documents);
@@ -103,6 +103,21 @@ public class DocumentController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    @PostMapping("/homePage")
+    public ModelAndView searchForDocsWithExt(@RequestParam("ext") String extension, HttpServletResponse response) {
+        if(extension.isEmpty())
+        {
+            try {
+                response.sendRedirect("/v1/homePage");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        List<Document> documents =documentService.findByExt(extension);
+        ModelAndView mav = new ModelAndView("index");
+        mav.addObject("documents", documents);
+        return mav;
     }
 
 }

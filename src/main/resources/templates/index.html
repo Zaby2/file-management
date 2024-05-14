@@ -60,6 +60,14 @@
         <button type="submit" class="btn btn-primary">Upload</button>
 
     </form>
+    <form method="POST" action="/v1/homePage" enctype="multipart/form-data" accept-charset="UTF-8" class="mb-3">
+
+        <div class="form-group">
+            <label for="search-input">Search by Extension:</label>
+            <input type="text" class="form-control" id="search-input" name="ext" >
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
     <h2>Список документов</h2>
     <table class="table table-bordered">
         <thead class="thead-dark">

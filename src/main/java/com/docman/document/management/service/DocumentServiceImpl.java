@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,6 +54,21 @@ public class DocumentServiceImpl implements DocumentService {
         doc.setAuthor(author);
         doc.setUpdDate(LocalDateTime.now());
         documentRepository.save(doc);
+    }
+
+    @Override
+    public List<Document> findByExt(String ext) {
+        ext = "." + ext;
+        Iterable<Document> documents = documentRepository.findAll();
+        List<Document> result = new ArrayList<>();
+        for (Document document : documents) {
+            if(document.getFileExtension().equals(ext)) {
+                result.add(document);
+            }
+
+        }
+
+        return result;
     }
 
     private String getFileExt(@NonNull String fileName) {
