@@ -51,7 +51,7 @@ public class DocumentController {
         }
         return "redirect:/homePage";
     }
-   @GetMapping(value = "/delete")
+   @DeleteMapping(value = "/delete")
     public String deletion(@RequestParam String id, HttpServletResponse response) {
         documentRepository.delete(documentRepository.findById(Long.parseLong(id)).get());
        try {
@@ -85,14 +85,14 @@ public class DocumentController {
             }
         }
     }
-    @GetMapping("/edit")
+    @PatchMapping("/edit")
     public ModelAndView editDocument(@RequestParam String id) {
         Optional<Document> documents = documentRepository.findById(Long.parseLong(id));
         ModelAndView mav = new ModelAndView("edit");
         mav.addObject("documents", documents.get());
         return mav;
     }
-    @PostMapping("/edit")
+    @PatchMapping("/edit")
     public void completeEdit( @RequestParam("fileName") String fileName,
                               @RequestParam("author") String author,
                               @RequestParam("id") String id,
@@ -104,7 +104,7 @@ public class DocumentController {
             throw new RuntimeException(e);
         }
     }
-    @PostMapping("/homePage")
+    @GetMapping("/homePage")
     public ModelAndView searchForDocsWithExt(@RequestParam("ext") String extension, HttpServletResponse response) {
         if(extension.isEmpty())
         {
